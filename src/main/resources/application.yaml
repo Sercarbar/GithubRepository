@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: githubPopularity
+  threads:
+    virtual:
+      enabled: true
+  cache:
+    type: caffeine
+    cache-names: github-repos
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=10m
+management:
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: health
+resilience4j:
+  circuitbreaker:
+    instances:
+      githubSearch:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: COUNT_BASED
+app:
+  github:
+    api-url: https://api.github.com
+    token: ${GITHUB_API_TOKEN:}
+    max-pages-to-fetch: 5
+  popularity:
+    scoring:
+      stars-weight: 1.0
+      forks-weight: 1.5
+      freshness:
+        very-recent-days: 3
+        recent-days: 14
+        old-days: 365
+        boost-very-recent: 1.5
+        boost-recent: 1.2
+        penalty-old: 0.5
+        default-multiplier: 1.0
