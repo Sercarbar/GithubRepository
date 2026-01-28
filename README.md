@@ -39,6 +39,10 @@ $$Score = ( \log_{10}(Stars + 1) \times W_{stars} + \log_{10}(Forks + 1) \times 
 * **Stars**: Direct measure of community interest.
 * **Forks**: Weighted more heavily as it represents active contribution.
 * **Multiplier of freshness**: Function that adjusts the score based on how recently the repository was updated
+    * **Boost Very Recent (1.5x)**: Significant score increase for repositories updated within the last 3 days.
+    * **Boost Recent (1.2x)**: Moderate increase for activity within the last 14 days.
+    * **Penalty Old (0.5x)**: 50% score reduction for repositories that haven't seen activity in over a year (365 days).
+    * **Default (1.0x)**: No adjustment for repositories updated between 15 and 365 days ago.
 
 ```math
 Multiplier_{freshness} = \begin{cases} 
@@ -48,11 +52,6 @@ Multiplier_{freshness} = \begin{cases}
 1.0 & \text{otherwise (Default)} 
 \end{cases}
 ```
-
-    * **Boost Very Recent (1.5x)**: Significant score increase for repositories updated within the last 3 days.
-    * **Boost Recent (1.2x)**: Moderate increase for activity within the last 14 days.
-    * **Penalty Old (0.5x)**: 50% score reduction for repositories that haven't seen activity in over a year (365 days).
-    * **Default (1.0x)**: No adjustment for repositories updated between 15 and 365 days ago.
 
 ### 1. Logarithmic Base Score
 
