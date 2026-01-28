@@ -53,7 +53,7 @@ Multiplier_{freshness} = \begin{cases}
 \end{cases}
 ```
 
-### 1. Logarithmic Base Score
+### Logarithmic Base Score
 
 The use of $\log_{10}$ for **Stars** and **Forks** ensures that extremely popular repositories do not completely
 overshadow smaller, highly relevant ones. This provides a more balanced ranking.
@@ -84,7 +84,7 @@ To transition this project into a real-world production environment, the followi
   provider's legal limits, avoiding 403 Forbidden errors.
 * **Observability**: Integrate **Spring Boot Actuator**, **Prometheus**, and **Grafana** for real-time monitoring of
   performance and scalability.
-* **Database Persistence (e.g., PostgreSQL):** To store historical snapshots of repository scores, enabling long-term
+* **Persistence (e.g., DynamoDb):** To store historical snapshots of repository scores, enabling long-term
   trend analysis and providing a persistent data fallback that reduces reliance on the external GitHub API.
 
 > **Note on Proactive Rate Limiting:** While professional rate-limiting (e.g., Token Bucket) is noted as a production
