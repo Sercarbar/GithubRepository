@@ -39,12 +39,15 @@ $$Score = ( \log_{10}(Stars + 1) \times W_{stars} + \log_{10}(Forks + 1) \times 
 * **Stars**: Direct measure of community interest.
 * **Forks**: Weighted more heavily as it represents active contribution.
 * **Multiplier of freshness**: Function that adjusts the score based on how recently the repository was updated
-  $$Multiplier_{freshness} = \begin{cases}
-  1.5 & \text{if } days \leq 3 \text{ (Very Recent)} \\
-  1.2 & \text{if } days \leq 14 \text{ (Recent)} \\
-  0.5 & \text{if } days > 365 \text{ (Old)} \\
-  1.0 & \text{otherwise (Default)}
-  \end{cases}$$
+
+```math
+Multiplier_{freshness} = \begin{cases} 
+1.5 & \text{if } days \leq 3 \text{ (Very Recent)} \\ 
+1.2 & \text{if } days \leq 14 \text{ (Recent)} \\ 
+0.5 & \text{if } days > 365 \text{ (Old)} \\ 
+1.0 & \text{otherwise (Default)} 
+\end{cases}
+```
 
     * **Boost Very Recent (1.5x)**: Significant score increase for repositories updated within the last 3 days.
     * **Boost Recent (1.2x)**: Moderate increase for activity within the last 14 days.
@@ -105,8 +108,8 @@ variables:
 ```yaml
 app:
   github:
-    token: ${GITHUB_TOKEN}              
-    max-pages-to-fetch: 5               
+    token: ${GITHUB_TOKEN}
+    max-pages-to-fetch: 5
   scoring:
     freshness:
       very-recent-days: 3
@@ -119,6 +122,7 @@ app:
 ```
 
 ### Manual Setup
+
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/Sercarbar/GithubRepository.git
@@ -141,25 +145,33 @@ app:
 Once the application is running, you can explore and test the API through the following entry points:
 
 ### Interactive Documentation (Swagger UI)
-The project includes **Swagger UI**, which allows you to visualize and interact with the API’s resources without having any of the implementation logic in place.
+
+The project includes **Swagger UI**, which allows you to visualize and interact with the API’s resources without having
+any of the implementation logic in place.
+
 * **URL:** [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 * **Usage:** Use the "Try it out" button to execute requests directly from your browser.
 
 ### Health & Monitoring (Spring Actuator)
+
 Basic health monitoring is available to check the status of the service and its dependencies:
+
 * **Status Endpoint:** [http://localhost:8080/health](http://localhost:8080/health)
 
 ### Primary Endpoint
+
 **`GET /v1/repositories/popular`**
 
 Retrieves a ranked list of GitHub repositories based on the calculated popularity score.
 
 ### Query Parameters:
-| Parameter  | Type     | Required | Description                                           |
-| :--------- | :------- | :------- | :---------------------------------------------------- |
-| `since`    | `String` | Yes      | Earliest creation date (Format: `dd-MM-yyyy`).        |
+
+| Parameter  | Type     | Required | Description                                              |
+|:-----------|:---------|:---------|:---------------------------------------------------------|
+| `since`    | `String` | Yes      | Earliest creation date (Format: `dd-MM-yyyy`).           |
 | `language` | `String` | No       | Programming language to filter (e.g., `java`, `python`). |
 
 #### Example Request (cURL):
+
 ```bash
 curl -X GET "http://localhost:8080/v1/repositories/popular?since=01-01-2023&language=java"
