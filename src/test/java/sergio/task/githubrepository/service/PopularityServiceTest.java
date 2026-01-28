@@ -41,7 +41,7 @@ class PopularityServiceTest {
     @DisplayName("Should return sorted list and handle multiple pages calculation")
     void getPopularRepositories_ShouldCalculateAndSortCorrectly() {
         String since = "2023-01-01";
-        String lang = "java";
+        String language = "java";
 
         GithubRepositoryDto repo1 = new GithubRepositoryDto("r1", "user/r1", 10, 5, LocalDateTime.now(), "Java", "url");
         GithubRepositoryDto repo2 = new GithubRepositoryDto("r2", "user/r2", 20, 10, LocalDateTime.now(), "Java", "url");
@@ -54,7 +54,7 @@ class PopularityServiceTest {
 
         when(calculator.calculateScore(any())).thenReturn(10.0, 50.0);
 
-        List<RepositoryScoreResponse> result = popularityService.getPopularRepositories(since, lang);
+        List<RepositoryScoreResponse> result = popularityService.getPopularRepositories(since, language);
 
         assertEquals(2, result.size(), "Should have collected repositories from all fetched pages");
         assertEquals("user/r2", result.getFirst().fullName(), "The result should be sorted by score descending");
